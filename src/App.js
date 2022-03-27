@@ -1,24 +1,32 @@
-import logo from './logo.svg';
 import './App.css';
-
-function App() {
+import './theme.scss'
+import React from 'react'
+import * as Layout from './Layout';
+import MiddleWeare from './Routes/MiddleWeare';
+import { Router } from '@reach/router';
+import { nonAuthRoutes, authRoutes } from './Routes/routes';
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      {
+        React.Children.toArray(
+          nonAuthRoutes.map(({ page, path }, id) => {
+            return (
+              <MiddleWeare layout={Layout.NonAuthLayout} path={path} component={page} />
+            )
+          })
+        )
+      }
+      {
+        React.Children.toArray(
+          authRoutes.map(({ page, path }, id) => {
+            return (
+              <MiddleWeare layout={Layout.AuthLayout} path={path} component={page} />
+            )
+          })
+        )
+      }
+    </Router>
   );
 }
 
